@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +23,8 @@ SECRET_KEY = 'fhm=m29sp)1^bk$ebv^eb^&zl*2k_u!^ve4r2*+4d=_ok*0-vi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ["engagement-monitor-cc.herokuapp.com", "127.0.0.1","engagement-monitor.tech"]
+ALLOWED_HOSTS = ["engagement-monitor-cc.herokuapp.com",
+                 "127.0.0.1", "engagement-monitor.tech", "localhost", "engagement-monitor.codechefvit.com","engagement-monitor.akshatvg.com"]
 
 
 # Application definition
@@ -68,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'engagement.wsgi.application'
-SESSION_ENGINE= 'django.contrib.sessions.backends.db'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -83,7 +85,7 @@ DATABASES = {
 DEBUG = True
 if os.environ.get("DATABASE_URL") is not None:
     DATABASES['default'] = dj_database_url.config()
-    DEBUG = False
+    DEBUG = True
 
 
 # Password validation
@@ -125,14 +127,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIRS = [
-  os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static/'),
 ]
-STATIC_ROOT= os.path.join(BASE_DIR,'assets')
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
- 'DEFAULT_AUTHENTICATION_CLASSES' : ('rest_framework.authentication.BasicAuthentication', ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.BasicAuthentication', ),
 }
+
+django_heroku.settings(locals())
